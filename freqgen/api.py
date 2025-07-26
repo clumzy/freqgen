@@ -13,6 +13,7 @@ origins = [
     "http://localhost:1234",
     "https://just-maiyak.github.io",
     "https://station-r.club",
+    "http://station-r.club",
     "https://freqscan.yefimch.uk",
 ]
 
