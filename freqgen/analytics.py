@@ -2,7 +2,9 @@ from pathlib import Path
 from sqlite3 import Connection, connect
 from fastapi import Request
 
-db_location: str = "db/freq_analytics.sqlite"
+from freqscan.config import settings
+
+db_location: Path = settings.ANALYTICS_DB_PATH
 
 
 def check_and_create_db(db_location: str | Path = db_location) -> Connection:
