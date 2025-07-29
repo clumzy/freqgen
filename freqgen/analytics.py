@@ -1,10 +1,11 @@
+from pathlib import Path
 from sqlite3 import Connection, connect
 from fastapi import Request
 
 db_location: str = "db/freq_analytics.sqlite"
 
 
-def check_and_create_db(db_location: str = db_location) -> Connection:
+def check_and_create_db(db_location: str | Path = db_location) -> Connection:
     """Checks if the database exists. If the database does not exist, it will be created.
     Arguments:
         db_location: The location of the SQLite database file.

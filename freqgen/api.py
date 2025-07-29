@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from enum import StrEnum
 import random
 
@@ -5,10 +6,10 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from freqgen.analytics import check_and_create_db, log_analytics, get_count_questionnaires
+from freqgen.config import settings
 from freqgen.model import get_model
 from freqgen.image import generate_image
-
-from freqgen.analytics import log_analytics, get_count_questionnaires
 
 
 origins = [
@@ -21,7 +22,12 @@ origins = [
     "https://freqscan.yefimch.uk",
 ]
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    _ = check_and_create_db(settings.ANALYTICS_DB_LOCATION)
+    yield
+
+app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
